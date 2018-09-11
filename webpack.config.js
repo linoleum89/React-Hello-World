@@ -6,6 +6,7 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 	inject: 'body',
 })
 module.exports = {
+	devtool: 'source-map',
 	mode: 'development',
 	entry: './client/index.js',
 	output: {
