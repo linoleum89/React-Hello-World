@@ -9,6 +9,43 @@
 <body>
     <div id="root">
     </div>
+    <script>
+        const originalArray = ['baz', 'bar', 'foo', 'foo', 'asdf', 'bar']
+
+        function removeDuplicates(arr) {
+            let newArray = [...arr]; //spread operator to create a new copy from our original array
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i]) {
+                    for (let j = i + 1; j < arr.length; j++) {
+                        if (arr[i] === arr[j]) {
+                            newArray[i] = ''
+                            newArray[j] = ''
+                        }
+                    }
+                }
+            }
+            return newArray;
+        }
+
+        function filterEmptyElements(arr) {
+            return arr.filter((el) => el) // no need to create a immutable copy since .filter creates a new copy of the original array
+        }
+
+        // function composition - curry
+        function removeAndFilter(removeDuplicates, ...args) { //rest operator arguments is the final argument in the function signature
+            console.log(...args) // do something with the arguments, spread them or access via index
+            return (filterEmptyElements) => (arr) => filterEmptyElements(removeDuplicates(arr))
+        }
+
+        console.log(filterEmptyElements(removeDuplicates(originalArray))) // normal js
+
+        console.log(removeAndFilter(removeDuplicates)(filterEmptyElements)(originalArray)) // functional js
+
+        console.log(removeAndFilter(removeDuplicates, {
+            data: 'some data',
+            data2: 'more data'
+        })(filterEmptyElements)(originalArray)) // functional js and send more arguments to use the rest operator (...)
+    </script>
 </body>
 
 </html>
